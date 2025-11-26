@@ -68,4 +68,20 @@ print("Matrix 0.08 freq with dimensions: ", mat_008.shape)  # should be (384,12)
 print(mat_008)
 print("Matrix 0.16 freq with dimensions: ", mat_016.shape)  # should be (384,12)
 print(mat_016)
+
+#example of evolution of neuron "0" freq 0.04
+neuron_id = 0
+tuning_curve = mat_004[neuron_id, :]
+print(tuning_curve)
+
+plt.figure(figsize=(6,4))
+plt.plot(directions_sorted, tuning_curve, marker='o')
+plt.xlabel("Direction (°)")
+plt.ylabel("Response")
+plt.title("Direction tuning – Neuron {}".format(neuron_id))
+plt.grid(True)
+plt.show()
+
 exit()
+
+    
