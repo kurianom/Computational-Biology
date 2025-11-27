@@ -1,0 +1,44 @@
+###     insert Vittorio's code here     ###
+
+### TASK 2.	Get the preferred motion direction of each neuron and strength of directional tuning by calculating 
+# Preferred direction and Direction Selectivity Index (DSI)
+
+
+preferred_direction = {}
+DSI = {}
+
+for sf in spatial_freqs:  # Loop over spatial frequencies
+    mat = matrici[sf]     # Matrix: 384 neurons × 12 directions
+
+    # creating empty storages
+    preferred_direction[sf] = np.zeros(mat.shape[0])
+    DSI[sf] = np.zeros(mat.shape[0])
+
+    # Loop over each neuron
+    for neuron in range(mat.shape[0]):
+
+        # the neuron’s response across all stimulus directions
+        responses = mat[neuron, :]
+
+        # Complex vector sum
+        vector_sum = np.sum(
+            responses * np.exp(1j * directions_sorted / 180 * np.pi)
+        )
+
+        # Preferred direction
+        pref_deg = np.angle(vector_sum) / np.pi * 180
+        # Convert to 0–360 range
+        pref_deg = (pref_deg + 360) % 360
+        # Store preferred direction
+        preferred_direction[sf][neuron] = pref_deg
+
+        #DSI
+        DSI_val = np.abs(vector_sum) / np.sum(responses)
+        DSI[sf][neuron] = DSI_val
+
+
+print("First 10 preferred directions SF=0.04:")
+print(preferred_direction[0.04][:10])
+
+print("First 10 DSI values SF=0.04:")
+print(DSI[0.04][:10])
